@@ -1,9 +1,8 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const User = require('../models/user');
+const User = require('../models/user.js');
 const { z } = require('zod');
-const user = require('../models/user');
 require('dotenv').config();
 const router = express.Router(); //router 
 
@@ -16,15 +15,19 @@ const SignUpSchema = z.object({ // this is zod schema checking if length is corr
 });
 
 router.post('/signup', async (req, res) => {
+    console.log('Signup request received');
     const validation = SignUpSchema.safeParse(req.body);   // safeparse is same as parse but give error object with details
     if (!validation.success) return res.status(400).json(validation.error); // if fail? error
     const { username, password } = req.body; // save values
 
     try {
+        console.log('Signup request hererreceived');
         const existingUser = await User.findOne({ username }); // check DB for user existing 
-        if (existingUser) return res.status(400).json({ message: 'user already exists' }); // if? error
+        if (existingUser) return res.status(400).json({ message: 'user already ' }); // if? error
         const user = new User({ username, password }); // save the new User in user const 
+        console.log('Signup request hererived');
         await user.save(); // save is similar to create but also does the hashing (i have written in schema -user.js)
+        console.log('Signup request hererreceived');
         res.status(201).json({ message: 'user created' });
     } catch (e) {
         res.status(500).json({ message: 'server issue' });
@@ -54,3 +57,5 @@ router.post('/login', async (req, res) => {
 router.post('/logout', (req, res)=>{
     res.clearCookie('token').json({message: 'logged out'}); /// clearing cookie token n loging ot 
 })
+
+module.exports = router;

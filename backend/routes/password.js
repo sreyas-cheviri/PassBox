@@ -1,6 +1,6 @@
 const express = require('express');
 const PasswordEntry = require('../models/password-entries');
-const authMiddleware = require('../middleware/authMiddleware');
+const authMiddleware = require('../middleware/authMiddleware.js');
 
 const router = express.Router();
 

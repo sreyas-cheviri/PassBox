@@ -5,4 +5,4 @@ const passwordSchema = new mongoose.Schema({
     userId :{ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true} // this is referring to user id in User model schema -user.js
 });
 
-module.exports =  mongoose.mondel('PasswordEntry',passwordSchema);
+module.exports =  mongoose.model('PasswordEntry',passwordSchema);
