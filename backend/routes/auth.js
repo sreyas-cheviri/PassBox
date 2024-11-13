@@ -15,19 +15,17 @@ const SignUpSchema = z.object({ // this is zod schema checking if length is corr
 });
 
 router.post('/signup', async (req, res) => {
-    console.log('Signup request received');
+    // console.log('Signup request received');
     const validation = SignUpSchema.safeParse(req.body);   // safeparse is same as parse but give error object with details
     if (!validation.success) return res.status(400).json(validation.error); // if fail? error
     const { username, password } = req.body; // save values
 
     try {
-        console.log('Signup request hererreceived');
+        // console.log('Signup request hererreceived');
         const existingUser = await User.findOne({ username }); // check DB for user existing 
         if (existingUser) return res.status(400).json({ message: 'user already ' }); // if? error
         const user = new User({ username, password }); // save the new User in user const 
-        console.log('Signup request hererived');
         await user.save(); // save is similar to create but also does the hashing (i have written in schema -user.js)
-        console.log('Signup request hererreceived');
         res.status(201).json({ message: 'user created' });
     } catch (e) {
         res.status(500).json({ message: 'server issue' });
@@ -36,26 +34,26 @@ router.post('/signup', async (req, res) => {
 
 
 router.post('/login', async (req, res) => {
-
     const { username, password } = req.body;
-
     try {
-        const matchedUser = await User.findOne({ username }); // check if user exists in DB
-        if (!matchedUser) return res.status(400).json({ message: 'user not found' });
+        const matchedUser = await User.findOne({ username });
+        if (!matchedUser) return res.status(400).json({ message: 'User not found' });
 
-        const matchCheck = await bcrypt.compare(password, matchedUser.password); // check is password entered is same as one in DB
-        if (!matchCheck) return res.status(400).json({ message: 'invalid credentials' });
+        const matchCheck = await bcrypt.compare(password, matchedUser.password);
+        if (!matchCheck) return res.status(400).json({ message: 'Invalid credentials' });
 
-        const token = jwt.sign({ id: matchedUser._id }, process.env.JWT_SECRET, { expiresIn: '7d' }); // signing with jwt secret ket - in env file
-        res.cookie('token', token, { httpOnly: true }).json({ message: 'logged in' })
-        // storing the token in user browser for 7 days tilll logout , (name , val , httpONly means protection aganist XSs cookie can be accesed via JS in client , message)
+        const token = jwt.sign({ id: matchedUser._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+
+       
+        res.cookie('token', token, { httpOnly: true }).json({ message: 'Logged in', token: token });
     } catch (error) {
-        res.status(500).json({ message: 'server error' });
+        res.status(500).json({ message: 'Server error' });
     }
-}) 
+});
 
-router.post('/logout', (req, res)=>{
-    res.clearCookie('token').json({message: 'logged out'}); /// clearing cookie token n loging ot 
+
+router.post('/logout', (req, res) => {
+    res.clearCookie('token').json({ message: 'logged out' }); /// clearing cookie token n loging ot 
 })
 
 module.exports = router;

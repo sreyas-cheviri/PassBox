@@ -2,11 +2,11 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 // console.log(process.env);  
 
-console.log('Mongo URI:', process.env.MONGO_URI); // this is logging undefined 
+console.log('Mongo URI:', process.env.MONGO_URI); 
 
 const db_connect = async () => {
     try {
-        console.log('DB try');  //even this is not logging
+        console.log('DB try'); 
         await mongoose.connect(process.env.MONGO_URI);
         console.log('DB connected');
     } catch (e) {
@@ -18,10 +18,7 @@ console.log('DB ');
 db_connect();
 
 
-// mongoose.connect(process.env.MONGODB_URI, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-// }).then(() => {
+// mongoose.connect(process.env.MONGODB_URI).then(() => {
 //     console.log("Connected to MongoDB");
 // }).catch(err => console.error("Could not connect to MongoDB", err));
 
