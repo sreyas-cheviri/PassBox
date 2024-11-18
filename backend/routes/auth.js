@@ -23,7 +23,7 @@ router.post('/signup', async (req, res) => {
     try {
         // console.log('Signup request hererreceived');
         const existingUser = await User.findOne({ username }); // check DB for user existing 
-        if (existingUser) return res.status(400).json({ message: 'user already ' }); // if? error
+        if (existingUser) return res.status(400).json({ message: 'user already exists' }); // if? error
         const user = new User({ username, password }); // save the new User in user const 
         await user.save(); // save is similar to create but also does the hashing (i have written in schema -user.js)
         res.status(201).json({ message: 'user created' });
@@ -38,13 +38,9 @@ router.post('/login', async (req, res) => {
     try {
         const matchedUser = await User.findOne({ username });
         if (!matchedUser) return res.status(400).json({ message: 'User not found' });
-
         const matchCheck = await bcrypt.compare(password, matchedUser.password);
         if (!matchCheck) return res.status(400).json({ message: 'Invalid credentials' });
-
-        const token = jwt.sign({ id: matchedUser._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
-
-       
+        const token = jwt.sign({ id: matchedUser._id }, process.env.JWT_SECRET, { expiresIn: '7d' });       
         res.cookie('token', token, { httpOnly: true }).json({ message: 'Logged in', token: token });
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
