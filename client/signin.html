@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PassBox | Signin</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/2ca57fca93.js" crossorigin="anonymous"></script>
+    <link rel="icon" href="./assets/favicon.png" type="image/x-icon">
+</head>
+<body class="bg-green-900 flex flex-col min-h-screen">
+
+    <!-- Header Section -->
+    <div class="flex justify-center items-center">
+        <div class="w-full max-w-4xl px-4 bg-white rounded-b-2xl">
+            <header class="flex justify-between items-center py-4">
+                <div class="flex items-center gap-2">
+                   <a href="index.html">
+                       <div class="flex gap-1 justify-center bg-green-500 p-2">
+                            <div class="w-2 h-2 bg-white rounded-full"></div>
+                            <div class="w-2 h-2 bg-white rounded-full"></div>
+                            <div class="w-2 h-2 bg-white rounded-full"></div>
+                        </div>
+                    </a>
+                    <h3 class="text-green-900 font-semibold">PassBox</h3>
+                </div>
+                <a href="signin.html" class="text-green-900 font-semibold border bg-gray-50 border-green-900 hover:bg-green-900 hover:text-white px-4 py-2 rounded-xl">
+                    <i class="fa-solid fa-right-to-bracket"></i> Sign up
+                </a>
+            </header>
+        </div>
+    </div>
+
+    <!-- Main Content Section -->
+    <main class="flex-grow">
+        <section class="flex justify-center items-center flex-wrap gap-40 max-w-6xl mx-auto w-full mt-20 px-4">
+            <form class="max-w-xs w-full bg-green-800 p-10 rounded-3xl shadow-2xl" action="">
+                <div class="mb-4">
+                    <label for="username" class="block text-white text-md font-bold mb-2">Username</label>
+                    <input type="text" placeholder="Enter your username" id="username" name="username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" required>
+                </div>
+                <div class="mb-6">
+                    <label for="password" class="block text-white text-md font-bold mb-2">Password</label>
+                    <input type="password" placeholder="Enter your password" id="password" name="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" required>
+                </div>
+                <button type="submit" class="w-full bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-white hover:text-green-900">Sign In</button>
+                <p class="text-center text-white text-md mt-10">
+                    Don't have an account? <br><a href="signup.html" class="text-white hover:underline font-bold">Register here</a>
+                </p>
+            </form>
+            <div class="max-w-xs w-full bg-green-800 p-2 rounded-md opacity-30 shadow-2xl">
+                <img src="assets/e75ea0755377335b7b6094615d29e31c.jpg" alt="">
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="text-green-900 mx-5 max-w-4xl w-full p-3 flex justify-between gap-6 bg-white rounded-t-2xl items-center mx-auto mt-52">
+        <div class="flex items-center">
+            <div class="flex gap-1 md:gap-1 justify-center bg-white p-1 md:p-4 max-w-max items-center">
+                <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+            </div>
+            <h3>PassBox</h3>
+        </div>
+        <span>Built by <br>
+            <a href="https://sreyascheviri.vercel.app" target="_blank" class="text-green-900 hover:text-green-500">sreyascheviri</a>
+            <a href="" aria-label="Visit Twitter"><i class="fa-brands fa-square-x-twitter text-green-900 hover:text-green-500"></i></a>
+            <a href=""><i class="fa-brands fa-github text-green-900 hover:text-green-500"></i></a>
+        </span>
+    </footer>
+
+</body>
+</html>
