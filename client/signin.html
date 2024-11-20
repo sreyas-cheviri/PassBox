@@ -24,7 +24,7 @@
                     </a>
                     <h3 class="text-green-900 font-semibold">PassBox</h3>
                 </div>
-                <a href="signin.html" class="text-green-900 font-semibold border bg-gray-50 border-green-900 hover:bg-green-900 hover:text-white px-4 py-2 rounded-xl">
+                <a href="signup.html" class="text-green-900 font-semibold border bg-gray-50 border-green-900 hover:bg-green-900 hover:text-white px-4 py-2 rounded-xl">
                     <i class="fa-solid fa-right-to-bracket"></i> Sign up
                 </a>
             </header>
@@ -34,7 +34,7 @@
     <!-- Main Content Section -->
     <main class="flex-grow">
         <section class="flex justify-center items-center flex-wrap gap-40 max-w-6xl mx-auto w-full mt-20 px-4">
-            <form class="max-w-xs w-full bg-green-800 p-10 rounded-3xl shadow-2xl" action="">
+            <form id="login-form" class="max-w-xs w-full bg-green-800 p-10 rounded-3xl shadow-2xl" action="">
                 <div class="mb-4">
                     <label for="username" class="block text-white text-md font-bold mb-2">Username</label>
                     <input type="text" placeholder="Enter your username" id="username" name="username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" required>
@@ -48,14 +48,14 @@
                     Don't have an account? <br><a href="signup.html" class="text-white hover:underline font-bold">Register here</a>
                 </p>
             </form>
-            <div class="max-w-xs w-full bg-green-800 p-2 rounded-md opacity-30 shadow-2xl">
-                <img src="assets/e75ea0755377335b7b6094615d29e31c.jpg" alt="">
+            <div class="max-w-xs w-full bg-green-800 p-2 rounded-md opacity-30 shadow-2xl transform transition duration-300 hover:-translate-y-5">
+                <img src="assets/e75ea0755377335b7b6094615d29e31c.jpg" alt="" class="">
             </div>
         </section>
     </main>
 
     <!-- Footer Section -->
-    <footer class="text-green-900 mx-5 max-w-4xl w-full p-3 flex justify-between gap-6 bg-white rounded-t-2xl items-center mx-auto mt-52">
+    <footer class="text-green-900  max-w-4xl w-full p-3 flex justify-between gap-6 bg-white rounded-t-2xl items-center mx-auto mt-52">
         <div class="flex items-center">
             <div class="flex gap-1 md:gap-1 justify-center bg-white p-1 md:p-4 max-w-max items-center">
                 <div class="w-2 h-2 bg-green-500 rounded-full"></div>
@@ -70,6 +70,7 @@
             <a href=""><i class="fa-brands fa-github text-green-900 hover:text-green-500"></i></a>
         </span>
     </footer>
-
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./app.js"></script>
 </body>
 </html>

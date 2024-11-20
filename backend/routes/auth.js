@@ -41,7 +41,16 @@ router.post('/login', async (req, res) => {
         const matchCheck = await bcrypt.compare(password, matchedUser.password);
         if (!matchCheck) return res.status(400).json({ message: 'Invalid credentials' });
         const token = jwt.sign({ id: matchedUser._id }, process.env.JWT_SECRET, { expiresIn: '7d' });       
-        res.cookie('token', token, { httpOnly: true }).json({ message: 'Logged in', token: token });
+        res.cookie('token', token, { 
+            path:"/",
+            httpOnly: true, 
+            secure: false,  // Use 'true' for HTTPS, but false is fine in development with HTTP
+            sameSite: 'None'  // This is required for cross-origin cookies
+          });
+          console.log("cookie set succesfully");
+        res.json({ message: 'Logged in', token: token });
+     
+        
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
     }
