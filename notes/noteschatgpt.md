@@ -1,4 +1,4 @@
-To create this password manager, let's structure the code across the necessary files. I’ll go through each file in the backend (`server/` folder) and frontend (`client/` folder) to achieve the functionalities you outlined. 
+
 
 ### 1. Project Structure
 Here's a basic structure for your project:
@@ -144,36 +144,7 @@ module.exports = router;
 ```
 
 ### 6. `routes/password.js`
-Routes for managing passwords.
-```javascript
-const express = require('express');
-const PasswordEntry = require('../models/passwordEntry');
-const authMiddleware = require('../middleware/authMiddleware');
 
-const router = express.Router();
-
-router.post('/add', authMiddleware, async (req, res) => {
-    const { name, password } = req.body;
-    try {
-        const passwordEntry = new PasswordEntry({ userId: req.user.id, name, password });
-        await passwordEntry.save();
-        res.status(201).json(passwordEntry);
-    } catch (err) {
-        res.status(500).json({ message: 'Server error' });
-    }
-});
-
-router.get('/view', authMiddleware, async (req, res) => {
-    try {
-        const passwords = await PasswordEntry.find({ userId: req.user.id });
-        res.json(passwords);
-    } catch (err) {
-        res.status(500).json({ message: 'Server error' });
-    }
-});
-
-module.exports = router;
-```
 
 ### 7. `middleware/authMiddleware.js`
 JWT authentication middleware.
@@ -241,20 +212,6 @@ Basic HTML structure for the home page.
 </html>
 ```
 
-### 2. `style.css`
-Optional, for any additional styling not handled by Tailwind.
-
----
-
-This should provide a complete foundation to build your password manager. Let me know if you'd like further explanations or help with other parts!
-
-
-
-To build the client side of your password manager, we’ll create pages for user signup, login, the password management interface, and a logout button. This setup will use HTML, Tailwind CSS, and JavaScript.
-
-Here's a breakdown of each client file:
-
----
 
 ### 1. Client Structure
 ```
@@ -366,44 +323,6 @@ Login page for existing users.
 
 ---
 
-### 5. `dashboard.html`
-Dashboard for adding and viewing passwords.
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <script src="app.js" defer></script>
-</head>
-<body class="bg-gray-100">
-    <div class="container mx-auto p-4">
-        <h1 class="text-3xl font-bold mb-4">Your Passwords</h1>
-        <button id="logout-btn" class="mb-4 px-4 py-2 bg-red-500 text-white rounded">Logout</button>
-        <form id="password-form" class="bg-white p-4 rounded shadow mb-6">
-            <div class="mb-4">
-                <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name</label>
-                <input type="text" id="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" required>
-            </div>
-            <div class="mb-4">
-                <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
-                <input type="password" id="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" required>
-                <button type="button" onclick="toggleVisibility()" class="text-blue-500 mt-2">👁️</button>
-            </div>
-            <button type="submit" class="w-full bg-green-500 text-white font-bold py-2 px-4 rounded">Add Password</button>
-        </form>
-        <div id="password-list" class="bg-white p-4 rounded shadow">
-            <!-- Password entries will be displayed here -->
-        </div>
-    </div>
-</body>
-</html>
-```
-
----
 
 ### 6. `app.js`
 JavaScript file to handle frontend logic.
@@ -457,26 +376,4 @@ document.getElementById('logout-btn')?.addEventListener('click', async () => {
     window.location.href = 'index.html';
 });
 
-// Add a new password entry
-document.getElementById('password-form')?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const name = document.getElementById('name').value;
-    const password = document.getElementById('password').value
 
-;
-
-    const response = await fetch('/passwords', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, password })
-    });
-    if (response.ok) {
-        alert('Password added');
-        location.reload();
-    } else {
-        alert('Failed to add password');
-    }
-});
-```
-
-This client-side code connects with the backend APIs you’ll create for user authentication and password management.

@@ -6,59 +6,56 @@ const { z } = require('zod');
 require('dotenv').config();
 const router = express.Router(); //router 
 
-// i am not importing cookied parser here cause it is done server.js which acts as an global middleware 
-//app.use(cookieParser()) in server.js every request to any route automatically has its cookies parsed and available on req.cookies.
-
-const SignUpSchema = z.object({ // this is zod schema checking if length is correct 
+const SignUpSchema = z.object({
     username: z.string().min(1), //method for an object
     password: z.string().min(6),
 });
 
+// Signup Route
 router.post('/signup', async (req, res) => {
-    // console.log('Signup request received');
-    const validation = SignUpSchema.safeParse(req.body);   // safeparse is same as parse but give error object with details
-    if (!validation.success) return res.status(400).json(validation.error); // if fail? error
-    const { username, password } = req.body; // save values
+    const validation = SignUpSchema.safeParse(req.body); // Validate input
+    if (!validation.success) return res.status(400).json(validation.error); // Validation error
+
+    const { username, password } = req.body;
 
     try {
-        // console.log('Signup request hererreceived');
-        const existingUser = await User.findOne({ username }); // check DB for user existing 
-        if (existingUser) return res.status(400).json({ message: 'user already exists' }); // if? error
-        const user = new User({ username, password }); // save the new User in user const 
-        await user.save(); // save is similar to create but also does the hashing (i have written in schema -user.js)
-        res.status(201).json({ message: 'user created' });
+        const existingUser = await User.findOne({ username }); // Check if user exists
+        if (existingUser) return res.status(400).json({ message: 'User already exists' });
+
+        // Create a new user
+        const hashedPassword = await bcrypt.hash(password, 10); // Hash the password
+        const user = new User({ username, password: hashedPassword });
+        await user.save();
+
+        res.status(201).json({ message: 'User created' });
     } catch (e) {
-        res.status(500).json({ message: 'server issue' });
+        res.status(500).json({ message: 'Server issue' });
     }
-})
+});
 
-
+// Login Route
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
+
     try {
-        const matchedUser = await User.findOne({ username });
+        const matchedUser = await User.findOne({ username }); // Check if user exists
         if (!matchedUser) return res.status(400).json({ message: 'User not found' });
-        const matchCheck = await bcrypt.compare(password, matchedUser.password);
+
+        const matchCheck = await bcrypt.compare(password, matchedUser.password); // Verify password
         if (!matchCheck) return res.status(400).json({ message: 'Invalid credentials' });
-        const token = jwt.sign({ id: matchedUser._id }, process.env.JWT_SECRET, { expiresIn: '7d' });       
-        res.cookie('token', token, { 
-            path:"/",
-            httpOnly: true, 
-            secure: false,  // Use 'true' for HTTPS, but false is fine in development with HTTP
-            sameSite: 'None'  // This is required for cross-origin cookies
-          });
-          console.log("cookie set succesfully");
-        res.json({ message: 'Logged in', token: token });
-     
-        
+
+        const token = jwt.sign({ id: matchedUser._id }, process.env.JWT_SECRET, { expiresIn: '7d' }); // Generate token
+        console.log(token);
+
+        res.json({ message: 'Logged in', token }); // Send token in response
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
     }
 });
 
-
-router.post('/logout', (req, res) => {
-    res.clearCookie('token').json({ message: 'logged out' }); /// clearing cookie token n loging ot 
-})
+//logout
+// router.post('/logout', (req, res) => {
+//     res.json({ message: 'Logged out' });
+// });
 
 module.exports = router;

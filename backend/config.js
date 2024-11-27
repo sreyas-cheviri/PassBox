@@ -14,7 +14,7 @@ const db_connect = async () => {
         process.exit(1);
     }
 };
-console.log('DB ');
+// console.log('DB ');
 db_connect();
 
 

@@ -17,15 +17,13 @@ const corsOptions = {
     credentials: true  // Enable credentials
 };
 
-app.use(cors(corsOptions));  // Use the CORS middleware with the above options
-
-
-
+app.use(cors(corsOptions)); 
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../client'))); 
+app.use(express.static(path.join(__dirname, '../client/pages'))); 
 app.use('/auth', authRoutes);
 app.use('/password', passwordRoutes);
+
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
