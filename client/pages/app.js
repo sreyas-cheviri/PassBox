@@ -39,7 +39,7 @@ document.getElementById('signup-form')?.addEventListener('submit', async (e) => 
     }
 });
 
-document.getElementById('login-form')?.addEventListener('submit', async (e) => {
+document.getElementById('login-form')?.addEventListener('click', async (e) => {
     e.preventDefault();
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
@@ -53,6 +53,7 @@ document.getElementById('login-form')?.addEventListener('submit', async (e) => {
         }
     } catch (error) {
         console.error('Login failed:', error.response?.data?.message || error.message);
+        // showAlert(error.message)
     }
 });
 
@@ -74,7 +75,7 @@ function toggleVisibility() {
     }
 }
 
-document.getElementById('password-form')?.addEventListener('submit', async (e) => {
+document.getElementById('password-form')?.addEventListener('click', async (e) => {
     e.preventDefault();
     const PassName = document.getElementById('name').value;
     const Password = document.getElementById('password').value;
@@ -117,9 +118,17 @@ async function loadPasswords() {
 function addPasswordToList(password) {
     const list = document.getElementById('password-list');
     const listItem = document.createElement('li');
+    const eye = document.createElement('p');
     listItem.classList.add('mb-2');
-    listItem.innerHTML = `<strong>${password.PassName}</strong>: ${password.Password}`;
+    listItem.classList.add('bg-black');
+    listItem.classList.add('p-2');
+    // listItem.classList.add('');
+    listItem.classList.add('items-center');
+    listItem.classList.add('rounded');
+    listItem.classList.add('text-green-100');
+    listItem.innerHTML = `<strong>${password.PassName}</strong> - ${password.Password}`;
     list.appendChild(listItem);
+    // eye.appendChild('<i class="fa-solid fa-eye-slash"></i>')
 }
 
 loadPasswords();

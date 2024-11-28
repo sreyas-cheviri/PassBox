@@ -3,38 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>PassBox | Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/2ca57fca93.js" crossorigin="anonymous"></script>
     <script src="app.js" defer></script>
+    <link rel="icon" href="../assets/favicon.png" type="image/x-icon">
 </head>
-<body class="bg-gray-100">
-    <div class="max-w-4xl mx-auto p-4">
+<body class="bg-green-900">
+
+    <div class="flex justify-center w-full ">
+        <div class="w-full max-w-4xl px-4 bg-white rounded-b-2xl   ">
+            <header class="flex justify-between items-center py-4 ">
+                <div class="flex items-center gap-2">
+                    <div class="flex gap-1 justify-center bg-green-500 p-2 ">
+                        <div class="w-2 h-2 bg-white rounded-full"></div>
+                        <div class="w-2 h-2 bg-white rounded-full"></div>
+                        <div class="w-2 h-2 bg-white rounded-full"></div>
+                    </div>
+                    <h3 class="text-green-900 font-semibold">PassBox</h3>
+                </div>
+                <button id="logout-btn"
+                   class="text-green-900 font-semibold border transform transition-colors duration-500  bg-gray-50 border-green-900 hover:bg-green-900 hover:text-white px-4 py-2 rounded-xl">
+                    <i  class=" fa-solid fa-right-to-bracket"></i> Logout
+                </button>
+            </header>
+        </div>
+    </div>
+    <div class="flex-grow">
+    <div class="max-w-4xl mx-auto p-4 flex flex-col flex-grow min-h-screen">
         <div class="flex justify-between items-center mb-4">
-            <h1 class="text-2xl font-bold">Dashboard</h1>
-            <button id="logout-btn" class="bg-red-500 text-white px-4 py-2 rounded">Logout</button>
+            <h1 class="text-2xl text-white mx-auto bg-green-500 p-2 bg-opacity-20 mb-5 mt-5 font-bold">Your Dashboard</h1>
         </div>
 
-        <!-- Add Password Form -->
-        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            <h2 class="text-xl font-bold mb-4">Add Password</h2>
-            <form id="password-form">
+        <div class="backdrop-filter backdrop-blur-md bg-opacity-10 text-green-900 bg-white blur max-w-2xl mx-auto  p-2 rounded border border-gray-200">
+            <form class="md:flex gap-4 md:items-center md:justify-center mx-auto" >
                 <div class="mb-4">
-                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Password Name</label>
-                    <input type="text" id="name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" required>
+                    <label for="name" class="block text-white text-sm font-bold mb-2">Password Name</label>
+                    <input type="text" id="name" name="name" class="shadow appearance-none border rounded  py-2 px-3 text-gray-700" required>
                 </div>
-                <div class="mb-6">
-                    <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
-                    <input type="password" id="password" name="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" required>
+                <div class="mb-4 ">
+                    <label for="password" class="block text-white text-sm font-bold mb-2">Password</label>
+                    <div class="flex items-center">   <input type="password" id="password" name="password" class="shadow appearance-none border rounded  py-2 px-3 text-gray-700" required>
+                        <p id="toggle-icon" class="text-white ml-4 p-1 m-1" onclick=toggleVisibility() ><i class="fa-solid fa-eye"></i></p></div>
                 </div>
-                <button type="submit" class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded">Add Password</button>
+                <div>   
+                    <button  id="password-form" type="submit" class=" bg-green-900 text-white font-bold text-sm p-3 rounded-2xl hover:bg-white hover:text-green-900"> <i class="fa-solid fa-notes-medical"></i> Add Password</button></div>
+             
             </form>
         </div>
 
         <!-- Stored Passwords -->
-        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            <h2 class="text-xl font-bold mb-4">Stored Passwords</h2>
-            <ul id="password-list"></ul>
+        <div class="bg-white shadow-md justify-center items-center flex flex-col rounded px-8 pt-6 max-w-3xl mx-auto pb-8 mb-4 mt-4">
+            <h2 class="text-xl font-bold mb-4 bg-green-900 p-2  text-white">Your Passwords</h2>
+            <ul id="password-list" class=" ">
+                <!-- <li>adssd</li> -->
+            </ul>
         </div>
+    </div></div>
+    <div class=" flex justify-center bottom-0">
+        <footer class="text-green-900 mx-5 max-w-4xl w-full p-3 flex justify-between gap-6 bg-white rounded-t-2xl items-center ">
+            <div class="flex  items-center">
+            <div class="flex gap-1 md:gap-1 justify-center bg-white p-1 md:p-4 max-w-max items-center">
+                <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+            </div>
+            <h3 class="">PassBox</h3>
+        </div>
+            <span>Built by <br> <a href="https://sreyascheviri.vercel.app" target="_blank"
+                    class="text-green-900 hover:text-green-500">sreyascheviri</a>
+                <a href="" aria-label="Visit Twitter"><i class="fa-brands fa-square-x-twitter text-green-900 hover:text-green-500"></i></a>
+                <a href=""><i class="fa-brands fa-github text-green-900 hover:text-green-500"></i></a> </span>
+        </footer>
     </div>
 </body>
 </html>

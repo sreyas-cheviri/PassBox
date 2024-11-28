@@ -34,7 +34,7 @@
     <!-- Main Content Section -->
     <main class="flex-grow">
         <section class="flex justify-center items-center flex-wrap gap-40 max-w-6xl mx-auto w-full mt-20 px-4">
-            <form id="login-form" class="max-w-xs w-full bg-green-800 p-10 rounded-3xl shadow-2xl" action="">
+            <form  class="max-w-xs w-full bg-green-800 p-10 rounded-3xl shadow-2xl" action="">
                 <div class="mb-4">
                     <label for="username" class="block text-white text-md font-bold mb-2">Username</label>
                     <input type="text" placeholder="Enter your username" id="username" name="username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" required>
@@ -43,10 +43,12 @@
                     <label for="password" class="block text-white text-md font-bold mb-2">Password</label>
                     <input type="password" placeholder="Enter your password" id="password" name="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" required>
                 </div>
-                <button type="submit" class="w-full bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-white hover:text-green-900">Sign In</button>
+                <button type="submit" id="login-form" class="w-full bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-white hover:text-green-900">Sign In</button>
                 <p class="text-center text-white text-md mt-10">
-                    Don't have an account? <br><a href="signup.html" class="text-white hover:underline font-bold">Register here</a>
+                    Don't have an account? <br>
+                    <a href="signup.html" class="text-white hover:underline font-bold">Register here</a>
                 </p>
+                
             </form>
             <div class="max-w-xs w-full opacity-50 transform transition duration-300 hover:-translate-y-5 ">
                 <img src="../assets/Hero_-_5_4_(3).svg" alt="" class="">
