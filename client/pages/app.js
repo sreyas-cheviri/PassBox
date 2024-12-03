@@ -122,13 +122,11 @@ function addPasswordToList(password) {
     listItem.classList.add('mb-2');
     listItem.classList.add('bg-black');
     listItem.classList.add('p-2');
-    // listItem.classList.add('');
     listItem.classList.add('items-center');
     listItem.classList.add('rounded');
     listItem.classList.add('text-green-100');
     listItem.innerHTML = `<strong>${password.PassName}</strong> - ${password.Password}`;
     list.appendChild(listItem);
-    // eye.appendChild('<i class="fa-solid fa-eye-slash"></i>')
 }
 
 loadPasswords();
