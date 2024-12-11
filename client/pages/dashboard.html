@@ -52,7 +52,10 @@
         <div
           class="backdrop-filter backdrop-blur-md bg-opacity-10 text-green-900 bg-white blur max-w-2xl mx-auto p-2 rounded border border-gray-200"
         >
-          <form id="password-form" class="md:flex gap-4 md:items-center md:justify-center mx-auto">
+          <form
+            id="password-form"
+            class="md:flex gap-4 md:items-center md:justify-center mx-auto"
+          >
             <div class="mb-4">
               <label for="name" class="block text-white text-sm font-bold mb-2"
                 >Password Name</label
@@ -103,14 +106,14 @@
         <div
           class="bg-white shadow-md justify-center items-center flex flex-col rounded px-8 pt-6 w-full mx-auto pb-8 mb-4 mt-4"
         >
-          <h2
-            class="text-xl font-bold mb-4 bg-green-900 p-2 rounded text-white"
-          >
-            Your Passwords
-          </h2>
-          <ul id="password-list" class="w-full">
-
-          </ul>
+          <div class="">
+            <h4 class="text-sm mb-4 bg-green-900 p-3 rounded-md text-white border-4 border-red-400">
+              For your security, your password is encrypted using AES
+              encryption. To view or decrypt your password, click on the eye
+              icon.
+            </h4>
+          </div>
+          <ul id="password-list" class="w-full"></ul>
         </div>
       </div>
     </div>
