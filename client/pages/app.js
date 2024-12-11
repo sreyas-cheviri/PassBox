@@ -1,3 +1,4 @@
+// Utility function to show alerts
 function showAlert(message, type = 'success', duration = 2000) {
     const alertBox = document.createElement('div');
     alertBox.textContent = message;
@@ -16,6 +17,21 @@ function showAlert(message, type = 'success', duration = 2000) {
     setTimeout(() => alertBox.remove(), duration);
 }
 
+// Toggle password visibility
+function toggleVisibility() {
+    const passwordField = document.getElementById('password');
+    const toggleIcon = document.getElementById('toggle-icon');
+
+    if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        toggleIcon.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+    } else {
+        passwordField.type = 'password';
+        toggleIcon.innerHTML = '<i class="fa-solid fa-eye"></i>';
+    }
+}
+
+// Signup Event Listener
 document.getElementById('signup-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const username = document.getElementById('username').value;
@@ -39,7 +55,8 @@ document.getElementById('signup-form')?.addEventListener('submit', async (e) => 
     }
 });
 
-document.getElementById('login-form')?.addEventListener('click', async (e) => {
+// Login Event Listener
+document.getElementById('login-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
@@ -52,81 +69,178 @@ document.getElementById('login-form')?.addEventListener('click', async (e) => {
             window.location.href = 'dashboard.html';
         }
     } catch (error) {
-        console.error('Login failed:', error.response?.data?.message || error.message);
-        // showAlert(error.message)
+        const errorMessage = error.response?.data?.message || 'Login failed';
+        showAlert(errorMessage, 'error');
     }
 });
 
+// Add New Password Event Listener
+document.getElementById('password-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const PassName = document.getElementById('name').value;
+    const Password = document.getElementById('password').value;
+    console.log(PassName);
+    
+    const token = localStorage.getItem('authToken');
+    try {
+        const response = await fetch('http://localhost:5000/password/add', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json', 
+                Authorization: `Bearer ${token}` 
+            },
+            body: JSON.stringify({ PassName, Password }),
+        });
+
+        if (response.ok) {
+            const newEntry = await response.json();
+            addPasswordToList(newEntry);
+            document.getElementById('name').value = '';
+            document.getElementById('password').value = '';
+            showAlert('Password added successfully', 'success');
+        } else {
+            const errorData = await response.json();
+            showAlert(errorData.message || 'Failed to add password', 'error');
+        }
+    } catch (error) {
+        showAlert('Network error', 'error');
+    }
+});
+
+// Load Existing Passwords
+async function loadPasswords() {
+    const token = localStorage.getItem('authToken');
+    const currentPage = window.location.pathname;
+
+    // Redirect to login only if we're on the dashboard page
+    if (!token && currentPage.includes('dashboard')) {
+        window.location.href = 'signin.html';
+        return;
+    }
+
+    try {
+        const response = await fetch('http://localhost:5000/password', {
+            method: 'GET',
+            headers: { 
+                Authorization: `Bearer ${token}`, 
+                'Content-Type': 'application/json' 
+            },
+        });
+
+        if (response.ok) {
+            const passwords = await response.json();
+            const passwordList = document.getElementById('password-list');
+            passwordList.innerHTML = ''; // Clear existing list
+            passwords.forEach((password) => addPasswordToList(password));
+        } else {
+            console.log(' Failed to load passwords', error);
+           
+        }
+    } catch (error) {
+        console.error('Error fetching passwords:', error);
+        // showAlert('Network error', 'error');
+    }
+}
+
+
+// Add Password to List
+function addPasswordToList(password) {
+    const list = document.getElementById('password-list');
+    const listItem = document.createElement('li');
+    
+    // Style for list item
+    listItem.classList.add(
+        'mb-2', 
+        'bg-black', 
+        'p-3', 
+        'rounded', 
+        'flex', 
+        'justify-between', 
+        'items-center'
+    );
+    listItem.dataset.passwordId = password.id;
+
+    // Create decrypt button
+    const decryptButton = document.createElement('button');
+    decryptButton.innerHTML = '<i class="fa-solid fa-eye"></i>';
+    decryptButton.classList.add(
+        'text-white', 
+        'hover:text-green-700', 
+        'transition', 
+        'duration-300'
+    );
+    
+    // Set content of list item
+    listItem.innerHTML = `
+        <div>
+            <strong class="text-white">${password.PassName}</strong>
+            <p class="text-gray-500 text-sm">Encrypted Password</p>
+        </div>
+    `;
+    
+    // Add click event to decrypt button
+    decryptButton.addEventListener('click', () => decryptPassword(password.id, listItem));
+    listItem.appendChild(decryptButton);
+    
+    // Add to list
+    list.appendChild(listItem);
+}
+
+// Decrypt a Specific Password
+async function decryptPassword(passwordId, listItem) {
+    const token = localStorage.getItem('authToken');
+    try {
+        const response = await fetch(`http://localhost:5000/password/decrypt/${passwordId}`, {
+            method: 'GET',
+            headers: { 
+                Authorization: `Bearer ${token}`, 
+                'Content-Type': 'application/json' 
+            },
+        });
+
+        if (response.ok) {
+            const decryptedData = await response.json();
+            
+            // Update list item to show decrypted password
+            listItem.innerHTML = `
+                <div>
+                    <strong class="text-white">${decryptedData.PassName}</strong>
+                    <p class="text-gray-500 text-sm">${decryptedData.Password}</p>
+                </div>
+                <button class="text-red-500 hover:text-red-700 transition duration-300" onclick="hidePassword(this.parentElement)">
+                    <i class="fa-solid fa-eye-slash"></i>
+                </button>
+            `;
+        } else {
+            showAlert('Failed to decrypt password', 'error');
+        }
+    } catch (error) {
+        showAlert('Network error', 'error');
+    }
+}
+
+// Hide Decrypted Password
+function hidePassword(listItem) {
+    const PassName = listItem.querySelector('strong').textContent;
+    const passwordId = listItem.dataset.passwordId;
+    
+    // Revert to original state
+    listItem.innerHTML = `
+        <div>
+            <strong class="text-white">${PassName}</strong>
+            <p class="text-gray-500 text-sm">Encrypted Password</p>
+        </div>
+        <button class="text-white hover:text-green-700 transition duration-300" onclick="decryptPassword('${passwordId}', this.parentElement)">
+            <i class="fa-solid fa-eye"></i>
+        </button>
+    `;
+}
+
+// Logout Functionality
 document.getElementById('logout-btn')?.addEventListener('click', () => {
     localStorage.removeItem('authToken');
     window.location.href = 'index.html';
 });
 
-function toggleVisibility() {
-    const passwordField = document.getElementById('password');
-    const toggleIcon = document.getElementById('toggle-icon');
-
-    if (passwordField.type === 'password') {
-        passwordField.type = 'text';
-        toggleIcon.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
-    } else {
-        passwordField.type = 'password';
-        toggleIcon.innerHTML = '<i class="fa-solid fa-eye"></i>';
-    }
-}
-
-document.getElementById('password-form')?.addEventListener('click', async (e) => {
-    e.preventDefault();
-    const PassName = document.getElementById('name').value;
-    const Password = document.getElementById('password').value;
-
-    const token = localStorage.getItem('authToken');
-    const response = await fetch('http://localhost:5000/password/add', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ PassName, Password }),
-    });
-
-    if (response.ok) {
-        const newEntry = await response.json();
-        addPasswordToList(newEntry);
-        document.getElementById('password-form').reset();
-    } else {
-        showAlert('Failed to add password', 'error');
-    }
-});
-
-async function loadPasswords() {
-    const token = localStorage.getItem('authToken');
-    if (!token) return;
-
-    try {
-        const response = await fetch('http://localhost:5000/password', {
-            method: 'GET',
-            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-        });
-
-        if (response.ok) {
-            const passwords = await response.json();
-            passwords.forEach((password) => addPasswordToList(password));
-        }
-    } catch (error) {
-        console.error('Error fetching passwords:', error);
-    }
-}
-
-function addPasswordToList(password) {
-    const list = document.getElementById('password-list');
-    const listItem = document.createElement('li');
-    const eye = document.createElement('p');
-    listItem.classList.add('mb-2');
-    listItem.classList.add('bg-black');
-    listItem.classList.add('p-2');
-    listItem.classList.add('items-center');
-    listItem.classList.add('rounded');
-    listItem.classList.add('text-green-100');
-    listItem.innerHTML = `<strong>${password.PassName}</strong> - ${password.Password}`;
-    list.appendChild(listItem);
-}
-
-loadPasswords();
+// Load Passwords on Dashboard Load
+document.addEventListener('DOMContentLoaded', loadPasswords);
