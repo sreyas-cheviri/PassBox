@@ -5,7 +5,7 @@ const authMiddleware = require('../middleware/authMiddleware');
 const router = express.Router();
 
 // Secret key for encryption - store this securely, ideally in environment variables
-const SECRET_KEY = process.env.ENCRYPTION_SECRET_KEY || 'verysecret';
+const SECRET_KEY = process.env.ENCRYPTION_SECRET_KEY ;
 
 router.post('/add', authMiddleware, async (req, res) => {
     const { PassName, Password } = req.body; 

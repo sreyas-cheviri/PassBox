@@ -1,5 +1,5 @@
 // Utility function to show alerts
-function showAlert(message, type = 'success', duration = 2000) {
+function showAlert(message, type = 'success', duration = 1000) {
     const alertBox = document.createElement('div');
     alertBox.textContent = message;
     alertBox.style.position = 'fixed';
@@ -74,6 +74,9 @@ document.getElementById('login-form')?.addEventListener('submit', async (e) => {
     }
 });
 
+
+
+
 // Add New Password Event Listener
 document.getElementById('password-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -97,7 +100,7 @@ document.getElementById('password-form')?.addEventListener('submit', async (e) =
             addPasswordToList(newEntry);
             document.getElementById('name').value = '';
             document.getElementById('password').value = '';
-            showAlert('Password added successfully', 'success');
+            // showAlert('Password added successfully', 'success');
         } else {
             const errorData = await response.json();
             showAlert(errorData.message || 'Failed to add password', 'error');
@@ -150,7 +153,7 @@ function addPasswordToList(password) {
     
     // Style for list item
     listItem.classList.add(
-        'mb-2', 
+        'mb-1', 
         'bg-black', 
         'p-3', 
         'rounded', 
@@ -165,7 +168,7 @@ function addPasswordToList(password) {
     decryptButton.innerHTML = '<i class="fa-solid fa-eye"></i>';
     decryptButton.classList.add(
         'text-white', 
-        'hover:text-green-700', 
+        'hover:text-red-400', 
         'transition', 
         'duration-300'
     );
@@ -173,7 +176,7 @@ function addPasswordToList(password) {
     // Set content of list item
     listItem.innerHTML = `
         <div>
-            <strong class="text-white">${password.PassName}</strong>
+            <strong class="text-white mb-10 ">${password.PassName}</strong>
             <p class="text-gray-500 text-sm">Encrypted Password</p>
         </div>
     `;
@@ -182,8 +185,8 @@ function addPasswordToList(password) {
     decryptButton.addEventListener('click', () => decryptPassword(password.id, listItem));
     listItem.appendChild(decryptButton);
     
-    // Add to list
-    list.appendChild(listItem);
+    // Add to list - on top
+    list.insertBefore(listItem, list.firstChild);
 }
 
 // Decrypt a Specific Password
