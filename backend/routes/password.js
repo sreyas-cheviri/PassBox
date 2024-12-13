@@ -77,5 +77,31 @@ router.get('/decrypt/:id', authMiddleware, async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
+// New route to delete a specific password
+router.get('/delete/:id', authMiddleware, async (req, res) => {
+    try {
+        const entry = await PasswordEntry.findOne({
+            _id: req.params.id,
+            userId: req.user.id
+        });
+
+        if (!entry) {
+            return res.status(404).json({ message: 'Password entry not found' });
+           
+            
+        } console.log(`message`);
+       await PasswordEntry.deleteOne({
+            _id: req.params.id
+        })
+
+        res.json({
+            PassName: entry.PassName,
+        });
+        
+    } catch (err) {
+        console.error('Error deleting password:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
 
 module.exports = router;

@@ -42,11 +42,12 @@
     <div class="flex-grow">
       <div class="max-w-4xl mx-auto p-4 flex flex-col flex-grow min-h-screen">
         <div class="flex justify-between items-center mb-4">
+          
           <h1
-            class="text-2xl text-white mx-auto bg-green-500 p-2 bg-opacity-20 mb-5 mt-5 font-bold"
+            id="dashname"
+            class="text-2xl flex text-white mx-auto bg-green-500 p-2 bg-opacity-20 mb-5 mt-5 font-bold"
           >
-            Your Dashboard
-          </h1>
+        </h1>
         </div>
 
         <div
@@ -91,11 +92,11 @@
                 </p>
               </div>
             </div>
-            <div >
+            <div>
               <button
                 id="password-form"
                 type="submit"
-                class="bg-green-900  md:mt-2 text-white font-bold text-sm p-3 rounded hover:bg-white hover:text-green-900"
+                class="bg-green-900 md:mt-2 text-white font-bold text-sm p-3 rounded hover:bg-white hover:text-green-900"
               >
                 <i class="fa-solid fa-notes-medical"></i> Add Password
               </button>
@@ -107,9 +108,15 @@
           class="bg-white shadow-md justify-center items-center flex flex-col rounded px-8 pt-6 w-full mx-auto pb-8 mb-4 mt-4"
         >
           <div class="">
-            <h4 class="text-sm mb-4 bg-red-200 p-2 rounded-md text-red border-4 border-red-300">
-             <i>For security, your password is encrypted using advanced AES encryption. When you click the eye icon, your password will be temporarily decrypted for viewing in a secure manner.
-            </i>   </h4>
+            <h4
+              class="text-sm mb-4 bg-red-200 p-2 rounded-md text-red border-4 border-red-300"
+            >
+              <i
+                >For security, your password is encrypted using advanced AES
+                encryption. When you click the eye icon, your password will be
+                temporarily decrypted for viewing in a secure manner.
+              </i>
+            </h4>
           </div>
           <ul id="password-list" class="w-full"></ul>
         </div>
