@@ -1,6 +1,6 @@
 
 
-let apiUrl = "http://localhost:5000";
+let apiUrl = "https://passbox-2.onrender.com";
 
 
 // errs alerts
