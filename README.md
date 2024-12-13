@@ -52,3 +52,4 @@ MIT License
 screenshots
 
 ![home](./client/assets/Screenshot%202024-12-13%20223253.png)
+![home](./client/assets/Screenshot%202024-12-14%20005606.png)
