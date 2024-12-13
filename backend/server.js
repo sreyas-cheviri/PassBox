@@ -1,7 +1,6 @@
 
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth.js');
 const passwordRoutes = require('./routes/password.js');
 require('dotenv').config();
@@ -17,10 +16,10 @@ const corsOptions = {
     credentials: true  // Enable credentials
 };
 
-app.use(cors(corsOptions)); 
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../client/pages'))); 
+app.use(express.static(path.join(__dirname, '../client/pages')));
 app.use('/auth', authRoutes);
 app.use('/password', passwordRoutes);
 

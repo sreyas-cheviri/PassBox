@@ -1,4 +1,4 @@
-// Utility function to show alerts
+// errs alerts
 function showAlert(message, type = 'success', duration = 1000) {
     const alertBox = document.createElement('div');
     alertBox.textContent = message;
@@ -17,7 +17,7 @@ function showAlert(message, type = 'success', duration = 1000) {
     setTimeout(() => alertBox.remove(), duration);
 }
 
-// Toggle password visibility
+// Toggle password visibility on click
 function toggleVisibility() {
     const passwordField = document.getElementById('password');
     const toggleIcon = document.getElementById('toggle-icon');
@@ -31,7 +31,7 @@ function toggleVisibility() {
     }
 }
 
-// Signup Event Listener
+// Signup 
 document.getElementById('signup-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const username = document.getElementById('username').value;
@@ -49,13 +49,13 @@ document.getElementById('signup-form')?.addEventListener('submit', async (e) => 
             status === 400 && data?.message === 'user already exists'
                 ? 'User already exists. Please try a different username.'
                 : status === 400
-                ? 'Invalid request. Please check your input.'
-                : 'Server error. Please try again later.';
+                    ? 'Invalid request. Please check your input.'
+                    : 'Server error. Please try again later.';
         showAlert(message, 'error');
     }
 });
 
-// Login Event Listener
+// Login 
 document.getElementById('login-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const username = document.getElementById('username').value;
@@ -77,20 +77,20 @@ document.getElementById('login-form')?.addEventListener('submit', async (e) => {
 
 
 
-// Add New Password Event Listener
+// Add New Password
 document.getElementById('password-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const PassName = document.getElementById('name').value;
     const Password = document.getElementById('password').value;
     console.log(PassName);
-    
+
     const token = localStorage.getItem('authToken');
     try {
         const response = await fetch('http://localhost:5000/password/add', {
             method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json', 
-                Authorization: `Bearer ${token}` 
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
             },
             body: JSON.stringify({ PassName, Password }),
         });
@@ -110,7 +110,7 @@ document.getElementById('password-form')?.addEventListener('submit', async (e) =
     }
 });
 
-// Load Existing Passwords
+// Load Passwords
 async function loadPasswords() {
     const token = localStorage.getItem('authToken');
     const currentPage = window.location.pathname;
@@ -124,9 +124,9 @@ async function loadPasswords() {
     try {
         const response = await fetch('http://localhost:5000/password', {
             method: 'GET',
-            headers: { 
-                Authorization: `Bearer ${token}`, 
-                'Content-Type': 'application/json' 
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'
             },
         });
 
@@ -137,7 +137,7 @@ async function loadPasswords() {
             passwords.forEach((password) => addPasswordToList(password));
         } else {
             console.log(' Failed to load passwords', error);
-           
+
         }
     } catch (error) {
         console.error('Error fetching passwords:', error);
@@ -150,15 +150,14 @@ async function loadPasswords() {
 function addPasswordToList(password) {
     const list = document.getElementById('password-list');
     const listItem = document.createElement('li');
-    
-    // Style for list item
+
     listItem.classList.add(
-        'mb-1', 
-        'bg-black', 
-        'p-3', 
-        'rounded', 
-        'flex', 
-        'justify-between', 
+        'mb-1',
+        'bg-black',
+        'p-3',
+        'rounded',
+        'flex',
+        'justify-between',
         'items-center'
     );
     listItem.dataset.passwordId = password.id;
@@ -167,12 +166,12 @@ function addPasswordToList(password) {
     const decryptButton = document.createElement('button');
     decryptButton.innerHTML = '<i class="fa-solid fa-eye"></i>';
     decryptButton.classList.add(
-        'text-white', 
-        'hover:text-red-400', 
-        'transition', 
+        'text-white',
+        'hover:text-red-400',
+        'transition',
         'duration-300'
     );
-    
+
     // Set content of list item
     listItem.innerHTML = `
         <div>
@@ -180,11 +179,11 @@ function addPasswordToList(password) {
             <p class="text-gray-500 text-sm">Encrypted Password</p>
         </div>
     `;
-    
+
     // Add click event to decrypt button
     decryptButton.addEventListener('click', () => decryptPassword(password.id, listItem));
     listItem.appendChild(decryptButton);
-    
+
     // Add to list - on top
     list.insertBefore(listItem, list.firstChild);
 }
@@ -195,15 +194,15 @@ async function decryptPassword(passwordId, listItem) {
     try {
         const response = await fetch(`http://localhost:5000/password/decrypt/${passwordId}`, {
             method: 'GET',
-            headers: { 
-                Authorization: `Bearer ${token}`, 
-                'Content-Type': 'application/json' 
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'
             },
         });
 
         if (response.ok) {
             const decryptedData = await response.json();
-            
+
             // Update list item to show decrypted password
             listItem.innerHTML = `
                 <div>
@@ -226,7 +225,7 @@ async function decryptPassword(passwordId, listItem) {
 function hidePassword(listItem) {
     const PassName = listItem.querySelector('strong').textContent;
     const passwordId = listItem.dataset.passwordId;
-    
+
     // Revert to original state
     listItem.innerHTML = `
         <div>

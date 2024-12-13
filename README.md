@@ -27,7 +27,8 @@
    ```env
    MONGO_URI=your_mongodb_connection_string  
    PORT=5000  
-   SECRET_KEY=your_secret_key  
+   JWT_SECRET=your_jwt_key 
+   ENCRYPTION_SECRET_KEY=your_encryption_key
    ```  
 
 4. Start the app:  
@@ -46,3 +47,8 @@
 
 ## License  
 MIT License  
+
+
+screenshots
+
+![home](./client/assets/Screenshot%202024-12-13%20223253.png)
