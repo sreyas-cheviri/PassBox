@@ -13,6 +13,8 @@ const SignUpSchema = z.object({
 
 // Signup Route
 router.post('/signup', async (req, res) => {
+
+    console.log('hit here');
     const validation = SignUpSchema.safeParse(req.body); // Validate input
     if (!validation.success) return res.status(400).json(validation.error); // Validation error
 

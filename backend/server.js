@@ -10,7 +10,7 @@ const app = express();
 const cors = require('cors');
 
 const corsOptions = {
-    origin: 'http://127.0.0.1:5501',  // This should be the origin of your frontend
+    origin: '*',  // This should be the origin of your frontend
     methods: 'GET,POST,PUT,DELETE',  // Allowed methods
     allowedHeaders: 'Content-Type,Authorization',  // Allowed headers
     credentials: true  // Enable credentials
@@ -24,5 +24,8 @@ app.use('/auth', authRoutes);
 app.use('/password', passwordRoutes);
 
 
-const PORT = process.env.PORT;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const port = process.env.PORT || 5000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+

@@ -1,3 +1,8 @@
+
+
+let apiUrl = "http://localhost:5000";
+
+
 // errs alerts
 function showAlert(message, type = "success", duration = 1000) {
   const alertBox = document.createElement("div");
@@ -31,7 +36,7 @@ function toggleVisibility() {
     toggleIcon.innerHTML = '<i class="fa-solid fa-eye"></i>';
   }
 }
-
+console.log("API URL:", apiUrl);
 // Signup
 document
   .getElementById("signup-form")
@@ -41,7 +46,9 @@ document
     const password = document.getElementById("password").value;
 
     try {
-      const response = await axios.post("http://localhost:5000/auth/signup", {
+        
+        
+      const response = await axios.post(`${apiUrl}/auth/signup`, {
         username,
         password,
       });
@@ -74,7 +81,7 @@ document.getElementById("login-form")?.addEventListener("submit", async (e) => {
   const password = document.getElementById("password").value;
 
   try {
-    const response = await axios.post("http://localhost:5000/auth/login", {
+    const response = await axios.post(`${apiUrl}/auth/login`, {
       username,
       password,
     });
@@ -112,7 +119,7 @@ document
 
     const token = localStorage.getItem("authToken");
     try {
-      const response = await fetch("http://localhost:5000/password/add", {
+      const response = await fetch(`${apiUrl}/password/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -148,7 +155,7 @@ async function loadPasswords() {
   }
 
   try {
-    const response = await fetch("http://localhost:5000/password", {
+    const response = await fetch(`${apiUrl}/password`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -231,7 +238,7 @@ async function deletepass(passwordId, listItem) {
     const token = localStorage.getItem("authToken");
     try {
       const response = await fetch(
-        `http://localhost:5000/password/delete/${passwordId}`,
+        `${apiUrl}/password/delete/${passwordId}`,
         {
           method: "GET",
           headers: {
@@ -264,7 +271,7 @@ async function decryptPassword(passwordId, listItem) {
   const token = localStorage.getItem("authToken");
   try {
     const response = await fetch(
-      `http://localhost:5000/password/decrypt/${passwordId}`,
+      `${apiUrl}/password/decrypt/${passwordId}`,
       {
         method: "GET",
         headers: {
