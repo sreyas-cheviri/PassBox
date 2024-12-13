@@ -1,13 +1,6 @@
-# OS Files
-.DS_Store
-Thumbs.db
 
 # Node Modules
 node_modules/
-
-# Build directories
-dist/
-build/
 
 # Environment variables
 .env
