@@ -10,7 +10,7 @@ const app = express();
 const cors = require('cors');
 
 const corsOptions = {
-    origin: '*',  // This should be the origin of your frontend
+    origin: 'https://passbox.vercel.app/',  // This should be the origin of your frontend
     methods: 'GET,POST,PUT,DELETE',  // Allowed methods
     allowedHeaders: 'Content-Type,Authorization',  // Allowed headers
     credentials: true  // Enable credentials
